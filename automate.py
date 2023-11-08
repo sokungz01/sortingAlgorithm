@@ -102,7 +102,13 @@ def main():
             print(c_error)
             return 0
     for i,program_name in enumerate(program_names):
-        complieProgram(c_program[i],program_name)
+        res,c_error = isProgram_exists(program_name)
+        if res == None:
+            for i,program_name in enumerate(program_names):
+                complieProgram(c_program[i],program_name)
+            time.sleep(5)
+            print("All C programs are compiled. Please re-run the program")
+            return 0
     for i,testcase in enumerate(test_input_files):
         res,c_error = isTestcase_exists(test_input_files[i])
         if res == None:
