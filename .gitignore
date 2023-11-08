@@ -1,0 +1,13 @@
+*.exe
+*.zip
+*.png
+*.csv
+*.DS_Store
+*.cfg
+*.txt
+*.o
+*.DS_Store
+!/testcase/*.txt
+*.*
+!*.c
+!*.py
