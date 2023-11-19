@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 void printArr(int *arr, int size)
 {
     for (int i = 0; i < size; i++)
@@ -69,6 +70,9 @@ int main()
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
+    time_t start = clock();
     MergeSort(arr, 0, size - 1);
+    time_t end = clock();
+    printf("%f",(double)(end-start)/CLOCKS_PER_SEC);
     return 0;
 }

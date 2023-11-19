@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 void printArr(int *arr,int size){
     for(int i = 0 ; i < size ; i ++)
@@ -19,6 +20,7 @@ int main(){
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
+    time_t start = clock();
     for(int i = 0 ; i < size ; i ++){
         int min = i;
         for(int j = i+1; j < size; j ++){
@@ -28,6 +30,8 @@ int main(){
         }
         swap(&arr[i],&arr[min]);
     }
+        time_t end = clock();
+    printf("%f",(double)(end-start)/CLOCKS_PER_SEC);
     return 0 ;
     
 }

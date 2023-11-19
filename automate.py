@@ -1,8 +1,6 @@
 import subprocess
 import time
 import os
-import resource
-import psutil
 import platform
 import matplotlib.pyplot as plt
 import csv
@@ -26,30 +24,11 @@ def isTestcase_exists(testcase):
 
 def run_c_program_with_input(program, input_file):
 
-    if platform.system() == "Windows":
-        before_memory = psutil.virtual_memory().used
-    else:
-        before_memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    start_time = time.time()  # Record the start time
     process = subprocess.Popen([program], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     with open(input_file, 'r') as f:
         input_data = f.read()
     stdout, stderr = process.communicate(input=input_data)
-    end_time = time.time()  # Record the end time
-    execution_time = end_time - start_time  # Calculate the execution time in seconds
-    # Get system's virtual memory usage before and after running the program using 'resource' library
-    if platform.system() == "Windows":
-         after_memory = psutil.virtual_memory().used
-    else:
-        after_memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-
-    # Ensure that before_memory is less than after_memory
-    memory_usage = max(after_memory - before_memory, 0)
-
-    # Convert memory usage to kilobytes (KB)
-    memory_usage_kb = memory_usage / (1024**2)
-
-    return stdout, stderr, execution_time, memory_usage_kb
+    return stdout, stderr
 
 def plot_bar(df : pd.DataFrame):
     __,ax = plt.subplots()
@@ -120,35 +99,35 @@ def main():
 
     for i in range(len(program_names)):
         empty1 = []
-        empty2 = []
+        # empty2 = []
         for j in range(len(test_input_files)):
             empty1.append(0)  # Initialize with 0
-            empty2.append(0)  # Initialize with 0
+            # empty2.append(0)  # Initialize with 0
         time_result.append(empty1)
-        memory_result.append(empty2)
+        # memory_result.append(empty2)
 
     for i in range(len(program_names)):
         for j in range(len(test_input_files)):
             for try_round in range(num_try):
-                c_output, c_error, execution_time, memory_usage = run_c_program_with_input(program_names[i], test_input_files[j])
-                results.append((program_names[i], test_input_files[j], try_round, c_output, c_error, execution_time, memory_usage))
-                time_result[i][j] += execution_time
-                memory_result[i][j] += memory_usage
+                c_output, c_error = run_c_program_with_input(program_names[i], test_input_files[j])
+                results.append((program_names[i], test_input_files[j], try_round, float(c_output), c_error))
+                time_result[i][j] += float(c_output)
+                # memory_result[i][j] += memory_usage
     
     for i in range(len(program_names)):
         for j in range(len(test_input_files)):
             time_result[i][j] /= 5
-            memory_result[i][j] /= 5
+            # memory_result[i][j] /= 5
             avg_execution_times[i].append(time_result[i][j])
 
     for i, result in enumerate(results):
-        program_name, test_input_file, try_round, c_output, c_error, execution_time, memory_usage = result
+        program_name, test_input_file, try_round, c_output, c_error = result
         if try_round == 0:
             output_text = f'[ {program_name:<24} : {test_input_file:20} ]'
             with open(output_file,'a') as f:
                 f.write(output_text+'\n')
             print(output_text)
-        output_text = f"Round : {try_round+1} | Execution time: {execution_time:.6f} seconds | Memory usage: {memory_usage:.2f} MB"
+        output_text = f'Round : {try_round+1} | Execution time: {c_output:.6f} seconds'
         print(output_text)
         with open(output_file,'a') as f:
           f.write(output_text+'\n')
@@ -165,7 +144,7 @@ def main():
     print(f'------- RESULT --------')
     for i, time_result_row in enumerate(time_result):
         for j, avg_time in enumerate(time_result_row):
-            output_text = f'Sort : {program_names[i]:<20} Case : {test_input_files[j]:<20} Avg. Time : {avg_time:.6f} s  Avg. Memory : {memory_result[i][j]:.6f} MB'
+            output_text = f'Sort : {program_names[i]:<20} Case : {test_input_files[j]:<20} Avg. Time : {avg_time:.6f} s '
             with open(output_file,'a') as f:
                 f.write(output_text+"\n")
             print(output_text)

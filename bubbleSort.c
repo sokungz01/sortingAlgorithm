@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 void printArr(int *arr,int size){
     for(int i = 0 ; i < size ; i ++)
@@ -12,6 +13,7 @@ void swap(int *a ,int *b){
     *b = temp;
 }
 
+
 int main(){
 
     int size;
@@ -20,7 +22,7 @@ int main(){
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
-
+    time_t start = clock();
     for(int i = 0 ; i < size -1 ; i ++){
         for(int j = 0; j < size - i -1 ; j++){
             if(arr[j+1] < arr[j]){
@@ -28,8 +30,8 @@ int main(){
             }
         }
     }
-
-    printArr(arr,size);
+    time_t end = clock();
+    printf("%f",(double)(end-start)/CLOCKS_PER_SEC);
 
     return 0 ;
     

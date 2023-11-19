@@ -51,7 +51,9 @@ int main(){
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
+    time_t start = clock();
     QuickSort(arr,0,size-1);
-    // printArr(arr,size);
+    time_t end = clock();
+    printf("%f",(double)(end-start)/CLOCKS_PER_SEC);
     return 0;
 }
