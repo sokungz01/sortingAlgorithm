@@ -26,7 +26,7 @@ int main(){
         arr[j+1] = v;
     }
     time_t end = clock();
-    printf("%f",(double)(end-start)/CLOCKS_PER_SEC);
+    printf("%.10f",(double)(end-start)/CLOCKS_PER_SEC);
     return 0 ;
     
 }

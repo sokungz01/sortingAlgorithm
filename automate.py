@@ -35,7 +35,7 @@ def plot_bar(df : pd.DataFrame):
 
     ax.set_title('Algorithm Runtimes')
     ax.set_xlabel('Test Size')
-    ax.set_ylabel('Runtime (seconds)')
+    ax.set_ylabel('Runtime (milliseconds)')
 
     df.plot.bar(ax=ax)
 
@@ -51,7 +51,7 @@ def plot_line(df : pd.DataFrame):
 
     ax.set_title('Algorithm Runtimes')
     ax.set_xlabel('Test Size')
-    ax.set_ylabel('Runtime (seconds)')
+    ax.set_ylabel('Runtime (milliseconds)')
 
     df.plot(ax=ax)
 
@@ -64,7 +64,7 @@ def plot_line(df : pd.DataFrame):
 def main():
     # Provide a list of input file paths
     c_program = ["bubbleSort.c","insertionSort.c","selectionSort.c","mergeSort.c","quickSort.c"]
-    test_input_files = ["testcase/10.txt","testcase/100.txt","testcase/1000.txt","testcase/10000.txt"]
+    test_input_files = ["testcase/10.txt","testcase/100.txt","testcase/1000.txt","testcase/10000.txt","testcase/100000.txt"]
     if platform.system() == "Windows":
         program_names = ["bubbleSort.exe","insertionSort.exe","selectionSort.exe","mergeSort.exe","quickSort.exe"]
     else:
@@ -110,8 +110,8 @@ def main():
         for j in range(len(test_input_files)):
             for try_round in range(num_try):
                 c_output, c_error = run_c_program_with_input(program_names[i], test_input_files[j])
-                results.append((program_names[i], test_input_files[j], try_round, float(c_output), c_error))
-                time_result[i][j] += float(c_output)
+                results.append((program_names[i], test_input_files[j], try_round, float(c_output)*1000, c_error))
+                time_result[i][j] += float(c_output)*1000
                 # memory_result[i][j] += memory_usage
     
     for i in range(len(program_names)):
@@ -127,7 +127,7 @@ def main():
             with open(output_file,'a') as f:
                 f.write(output_text+'\n')
             print(output_text)
-        output_text = f'Round : {try_round+1} | Execution time: {c_output:.6f} seconds'
+        output_text = f'Round : {try_round+1} | Execution time: {c_output:.6f} milliseconds'
         print(output_text)
         with open(output_file,'a') as f:
           f.write(output_text+'\n')
@@ -144,7 +144,7 @@ def main():
     print(f'------- RESULT --------')
     for i, time_result_row in enumerate(time_result):
         for j, avg_time in enumerate(time_result_row):
-            output_text = f'Sort : {program_names[i]:<20} Case : {test_input_files[j]:<20} Avg. Time : {avg_time:.6f} s '
+            output_text = f'Sort : {program_names[i]:<20} Case : {test_input_files[j]:<20} Avg. Time : {avg_time:<12.6f} ms '
             with open(output_file,'a') as f:
                 f.write(output_text+"\n")
             print(output_text)
