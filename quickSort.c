@@ -49,7 +49,6 @@ int main(){
     time_t start = clock();
     QuickSort(arr,0,size-1);
     time_t end = clock();
-    printArr(arr,size);
     printf("%.10f",(double)(end-start)/CLOCKS_PER_SEC);
 
     return 0;
