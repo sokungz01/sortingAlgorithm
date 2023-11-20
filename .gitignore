@@ -7,7 +7,7 @@
 *.txt
 *.o
 *.DS_Store
-!/testcase/*.txt
+!/testcase/*
 *
 *.*
 !*.c

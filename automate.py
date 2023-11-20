@@ -64,13 +64,14 @@ def plot_line(df : pd.DataFrame):
 def main():
     # Provide a list of input file paths
     c_program = ["bubbleSort.c","insertionSort.c","selectionSort.c","mergeSort.c","quickSort.c"]
-    test_input_files = ["testcase/10.txt","testcase/100.txt","testcase/1000.txt","testcase/10000.txt","testcase/100000.txt"]
+    path = "testcase/reversed/"
+    num_try = 5
+    output_file = "output.txt"
+    test_input_files = os.listdir(path)
     if platform.system() == "Windows":
         program_names = ["bubbleSort.exe","insertionSort.exe","selectionSort.exe","mergeSort.exe","quickSort.exe"]
     else:
         program_names = ["./bubbleSort","./insertionSort","./selectionSort","./mergeSort","./quickSort"]  # Change this to the correct executable names
-    num_try = 5
-    output_file = "output.txt"
     results = []  # Store the results in a list
     time_result = []
     memory_result = []
@@ -89,7 +90,7 @@ def main():
             print("All C programs are compiled. Please re-run the program")
             return 0
     for i,testcase in enumerate(test_input_files):
-        res,c_error = isTestcase_exists(test_input_files[i])
+        res,c_error = isTestcase_exists(path+test_input_files[i])
         if res == None:
             print(c_error)
             return 0
@@ -109,8 +110,8 @@ def main():
     for i in range(len(program_names)):
         for j in range(len(test_input_files)):
             for try_round in range(num_try):
-                c_output, c_error = run_c_program_with_input(program_names[i], test_input_files[j])
-                results.append((program_names[i], test_input_files[j], try_round, float(c_output)*1000, c_error))
+                c_output, c_error = run_c_program_with_input(program_names[i], path+test_input_files[j])
+                results.append((program_names[i], test_input_files[j], try_round, (float(c_output))*1000, c_error))
                 time_result[i][j] += float(c_output)*1000
                 # memory_result[i][j] += memory_usage
     
