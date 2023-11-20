@@ -14,3 +14,5 @@
 !/testcase/
 !/testcase/reversed/
 !/testcase/reversed/*.txt
+!/testcase/nonReversed
+!/testcase/nonReversed/*.txt
