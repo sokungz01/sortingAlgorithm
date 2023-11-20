@@ -67,7 +67,8 @@ def main():
     path = "testcase/reversed/"
     num_try = 5
     output_file = "output.txt"
-    test_input_files = os.listdir(path)
+    test_input_files = sorted(os.listdir(path))
+    print(test_input_files)
     if platform.system() == "Windows":
         program_names = ["bubbleSort.exe","insertionSort.exe","selectionSort.exe","mergeSort.exe","quickSort.exe"]
     else:
@@ -111,8 +112,9 @@ def main():
         for j in range(len(test_input_files)):
             for try_round in range(num_try):
                 c_output, c_error = run_c_program_with_input(program_names[i], path+test_input_files[j])
-                results.append((program_names[i], test_input_files[j], try_round, (float(c_output))*1000, c_error))
-                time_result[i][j] += float(c_output)*1000
+                timeUsage = float(c_output)*1000
+                results.append((program_names[i], test_input_files[j], try_round, timeUsage , c_error))
+                time_result[i][j] += timeUsage
                 # memory_result[i][j] += memory_usage
     
     for i in range(len(program_names)):
@@ -122,13 +124,13 @@ def main():
             avg_execution_times[i].append(time_result[i][j])
 
     for i, result in enumerate(results):
-        program_name, test_input_file, try_round, c_output, c_error = result
+        program_name, test_input_file, try_round, timeUsage, c_error = result
         if try_round == 0:
             output_text = f'[ {program_name:<24} : {test_input_file:20} ]'
             with open(output_file,'a') as f:
                 f.write(output_text+'\n')
             print(output_text)
-        output_text = f'Round : {try_round+1} | Execution time: {c_output:.6f} milliseconds'
+        output_text = f'Round : {try_round+1} | Execution time: {timeUsage:.6f} milliseconds'
         print(output_text)
         with open(output_file,'a') as f:
           f.write(output_text+'\n')

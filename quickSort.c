@@ -15,25 +15,18 @@ void swap(int *a ,int *b)
 }
 
 int Partition(int *arr,int l,int r){
-    int pivot = arr[l];
-    int i = l;
-    int j = r+1;
-
-    do{
-        do
-            i++;
-        while(arr[i] < pivot);
-
-        do
-            j--;
-        while(arr[j] > pivot);
-
-        swap(&arr[i],&arr[j]);
-
-    }while(i<j);
-    swap(&arr[i],&arr[j]);
-    swap(&arr[l],&arr[j]);
-    return j;
+	int s  = l;
+	int i = 0;
+	int pivot = arr[l];
+	for(i = l+1; i <= r;i++){
+		if(arr[i] < pivot){
+			s++;
+			swap(&arr[i],&arr[s]);
+		}
+	}
+	
+	swap(&arr[l],&arr[s]);
+	return s;
 }
 
 void QuickSort(int *arr, int l ,int r){
@@ -48,12 +41,16 @@ int main(){
     int size;
     scanf("%d",&size);
     int *arr = (int *)malloc(size*sizeof(int));
+
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
+
     time_t start = clock();
     QuickSort(arr,0,size-1);
     time_t end = clock();
+    printArr(arr,size);
     printf("%.10f",(double)(end-start)/CLOCKS_PER_SEC);
+
     return 0;
 }
