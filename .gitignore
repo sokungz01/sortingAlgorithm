@@ -6,9 +6,11 @@
 *.cfg
 *.txt
 *.o
-*.DS_Store
-!/testcase/*
 *
 *.*
 !*.c
 !*.py
+!testcase/*.txt
+!/testcase/
+!/testcase/reversed/
+!/testcase/reversed/*.txt
