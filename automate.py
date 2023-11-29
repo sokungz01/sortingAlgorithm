@@ -64,7 +64,7 @@ def plot_line(df : pd.DataFrame):
 def main():
     # Provide a list of input file paths
     c_program = ["bubbleSort.c","insertionSort.c","selectionSort.c","mergeSort.c","quickSort.c"]
-    path = "testcase/reversed/"
+    path = "testcase/random_nonunique/"
     num_try = 5
     output_file = "output.txt"
     test_input_files = sorted(os.listdir(path))
