@@ -1,5 +1,5 @@
 # Sorting Algorithm Comparison 🕹️
-The experiment depicts a comparative study of five sorting algorithms, aiming to illustrate the behavior of sorting algorithms and serve as a guideline for selecting the most efficient algorithm based on the characteristics of real-world data.
+The experiment depicts a comparative study of five sorting algorithms, aiming to illustrate the behavior of sorting algorithms and serve as a guideline for selecting the most efficient algorithm based on the characteristics of real-world data.
 
 ## Architecture
 ![Pipeline](https://i.imgur.com/ytGYE7B.png)
